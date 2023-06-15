@@ -1,0 +1,51 @@
+<h2>Accueil</h2>
+
+{{ dateMaintenant | date : "dd/MM/yyyy"}}
+
+<div class="container">
+
+  <a *ngIf="isAdmin" mat-raised-button routerLink="/ajout-utilisateur" color="primary"><mat-icon>add</mat-icon>Ajouter
+    un utilisateur</a>
+
+  <div class="row">
+    <div *ngFor="let utilisateur of listeUtilisateur" class="col-6">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar></div>
+
+          <mat-card-title>{{ utilisateur | fullname }}</mat-card-title>
+
+          <mat-card-subtitle>
+            <span [class.titre-administrator]="utilisateur.role.id == 2">
+              {{utilisateur.role.nom}}
+            </span>
+            <i>
+              , Membre depuis {{ utilisateur.createdAt | date : "dd/MM/yyyy"}}
+              , Mis à jour le {{ utilisateur.updatedAt }}
+
+            </i>
+          </mat-card-subtitle>
+
+        </mat-card-header>
+        <img mat-card-image [attr.src]="utilisateur.imageProfil" />
+        <mat-card-content>
+          <p>
+            Un chien-loup est le résultat du croisement de la forme domestique de l'espèce canis lupus et de sa forme
+            sauvage. On appelle également chiens-loups les membres des lignées résultant de la reproduction de
+            chiens-loups entre eux. Cette descendance, une fois stabilisée peut former une race de chien-loup
+            domestique.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+
+          <a *ngIf="isAdmin" [routerLink]="['/edit-utilisateur', utilisateur.id]" mat-raised-button color="primary">
+            <mat-icon fontIcon="edit"></mat-icon>Modifier
+          </a>
+
+          <button *ngIf="isAdmin" (click)="onDeleteUser(utilisateur.id)" mat-raised-button color="warn">
+            <mat-icon fontIcon="delete"></mat-icon>Supprimer</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

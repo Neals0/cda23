@@ -1,0 +1,93 @@
+<ng-container [ngSwitch]="codeRetour">
+
+  <form *ngSwitchDefault class="container" (ngSubmit)="onSubmit()" [formGroup]="formulaire">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+
+      <mat-error *ngIf="formulaire.get('email')?.hasError('email')">
+        Email invalid
+      </mat-error>
+      <mat-error *ngIf="formulaire.get('email')?.hasError('required')">
+        Email obligatoire
+      </mat-error>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" />
+      <mat-error> Prénom obligatoire </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" />
+      <mat-error *ngIf="formulaire.get('nom')?.hasError('required')">
+        Nom obligatoire
+      </mat-error>
+      <mat-error *ngIf="formulaire.get('nom')?.hasError('minlength')">
+        Nom trop court (il manque
+        {{
+        formulaire.get("nom")?.getError("minlength").requiredLength -
+        formulaire.get("nom")?.getError("minlength").actualLength
+        }}
+        caractères )
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Pays</mat-label>
+      <mat-select formControlName="pays" [compareWith]="comparePays">
+        <mat-option *ngFor="let pays of listePays" [value]="pays">
+          {{ pays.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <input #fileSelector type="file" style="display: none;" (change)="onImageSelectionne($event)">
+      <button mat-mini-fab type="button" color="primary" (click)="fileSelector.click()">
+        <mat-icon>
+          <span class="material-symbols-outlined">
+            attach_file_add
+          </span>
+        </mat-icon>
+      </button>
+      <span>{{fichier != null ? fichier.name : "Aucun fichier selectionné"}}</span>
+    </div>
+
+    <div class="action-buttons">
+      <button mat-raised-button type="submit" color="primary">
+        {{ idUtilisateur == null ? "Ajouter" : "Modifier" }}
+      </button>
+      <a routerLink="/accueil" mat-raised-button color="warn">Annuler</a>
+    </div>
+  </form>
+
+  <div *ngSwitchCase="404">
+    <h2>L'utilisateur n'existe pas (il a peut être été supprimé)</h2>
+    <a mat-raised-button color="primary" routerLink="/accueil">
+      Retour à l'accueil
+    </a>
+  </div>
+
+  <div *ngSwitchCase="500">
+    <h2>Erreur inconnue</h2>
+
+    <p>Contactez l'administrateur en lui communiquant cette erreur</p>
+    <pre>
+      Une erreur est survenue, si le problème persiste, contactez l'administrateur : [email/formulaire]
+  </pre>
+
+    <a mat-raised-button color="warn">
+      Envoyer un rapport d'erreur
+    </a>
+
+    <a mat-raised-button color="primary" routerLink="/accueil">
+      Retour à l'accueil
+    </a>
+  </div>
+</ng-container>

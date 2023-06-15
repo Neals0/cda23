@@ -1,0 +1,14 @@
+mat-form-field {
+  max-width: 500px;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  button,
+  a {
+    max-width: 39%;
+  }
+}
