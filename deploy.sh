@@ -8,4 +8,4 @@ docker stop conteneur-application
 # Supprimer le conteneur existant
 docker rm conteneur-application
 # Lancer un nouveau conteneur
-docker run -d --name=angular-application -p 4200:80 loc-mns-front-v1
+docker run -d --name=angular-application -p 80:80 loc-mns-front-v1
