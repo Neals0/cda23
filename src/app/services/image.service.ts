@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Utilisateur } from '../models/utilisateur';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ImageService {
   chargementImageProfil(utilisateur: Utilisateur) {
     if (utilisateur.nomImageProfil != null) {
       this.http
-        .get('http://localhost:8080/image-profil/' + utilisateur.id, {
+        .get(environment.serverURL + '/image-profil/' + utilisateur.id, {
           responseType: 'blob',
         })
         .subscribe((donneeImage: any) => {
